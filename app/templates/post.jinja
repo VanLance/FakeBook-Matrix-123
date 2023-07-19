@@ -1,0 +1,9 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+  <form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <span>{{ form.body() }}</span>
+    <p>{{ form.submit() }}</p>
+  </form>
+{% endblock content %}

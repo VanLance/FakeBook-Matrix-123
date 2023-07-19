@@ -1,4 +1,5 @@
 from flask import render_template, flash, redirect
+from flask_login import login_user, logout_user, current_user
 from app import app
 from app.forms import LoginForm, RegisterForm
 from app.models import User
@@ -22,25 +23,35 @@ def sign_in():
         email = login_form.email.data
         user = User.query.filter_by(email=email).first()
         if user and user.check_password(login_form.password.data):
+            login_user(user)
+            print(current_user.username)
             flash(f'{login_form.email.data} logged in!', category='success')
             return redirect('/')
         else:
             flash(f'Invaled User Data, Try Again!', category='warning')
     return render_template('signin.jinja', form=login_form)
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        username = form.username.data
-        email = form.email.data
+        user_info = {
+            'first_name' : form.first_name.data,
+            'last_name' : form.last_name.data,
+            'username' : form.username.data,
+            'email' : form.email.data,
+        }
         try:
-            user = User(first_name=first_name, last_name=last_name, username = username, email=email)
+            user = User()
+            user.from_dict(user_info)
             user.hash_password(form.password.data)
             user.commit()
-            flash(f'{first_name if first_name else username} registered', category='success')
+            flash(f'{user.first_name if user.first_name else user.username} registered', category='success')
             return redirect('/')
         except:
             flash(f'Username or Email already taken, Try Again', category='warning')

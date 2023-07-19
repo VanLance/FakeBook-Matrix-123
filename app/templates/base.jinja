@@ -23,6 +23,9 @@
       </div>
     {% endfor %}
   {% endwith %}
+  {% if current_user.is_authenticated %}
+    {{ current_user.username }}
+  {% endif %}
   {% block content %}{% endblock %}
 
 </body>
