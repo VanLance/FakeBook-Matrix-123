@@ -2,6 +2,7 @@
 
 {% block content %}
   <h3>Sign In</h3>
+<<<<<<< HEAD
   <form action="" method="POST" novalidate>
     {{ form.hidden_tag() }}
     <p>
@@ -21,4 +22,18 @@
     <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
     <p>{{ form.submit() }}</p>
     </form>
+=======
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.email.label }}<br>
+    {{ form.email(size=32) }}
+  </p>
+  <p>
+    {{ form.password.label }}<br>
+    {{ form.password(size=32) }}
+  </p>
+  <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+  <p>{{ form.submit() }}</p>
+
+>>>>>>> parent of 5457126 (update web forms and routes)
 {% endblock content %}
