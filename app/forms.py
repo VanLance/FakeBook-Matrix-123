@@ -20,3 +20,7 @@ class RegisterForm(FlaskForm):
 class PostForm(FlaskForm):
     body = StringField('Make Post', validators=[ DataRequired() ])
     submit = SubmitField('Post')
+
+class UserSearchForm(FlaskForm):
+    username = StringField('Username',validators=[ DataRequired() ])
+    submit = SubmitField('Search User')

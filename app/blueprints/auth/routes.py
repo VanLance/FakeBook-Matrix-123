@@ -1,22 +1,11 @@
-from flask import render_template, flash, redirect
+from flask import flash, redirect, render_template, url_for
 from flask_login import login_user, logout_user, current_user
-from app import app
+
+from . import bp as auth
 from app.forms import LoginForm, RegisterForm
 from app.models import User
 
-@app.route('/')
-def home():
-    matrix_posts = {
-        'instructors': {
-            'sean':['Flask week is huge, lets not forget wbs'],
-            'dylan': ['Yay it is flask time']
-        },
-        'students':{ student:[f'This is post {num}'] for num, student in enumerate(['ben','christian','sima','david'])}
-    }
-    print(matrix_posts['students'])
-    return render_template('index.jinja', instructors=matrix_posts['instructors'], students=matrix_posts['students'], title='Fakebook Homepage')
-
-@app.route('/signin', methods=['GET', 'POST'])
+@auth.route('/signin', methods=['GET', 'POST'])
 def sign_in():
     login_form = LoginForm()
     if login_form.validate_on_submit():
@@ -31,12 +20,12 @@ def sign_in():
             flash(f'Invaled User Data, Try Again!', category='warning')
     return render_template('signin.jinja', form=login_form)
 
-@app.route('/logout')
+@auth.route('/logout')
 def logout():
     logout_user()
-    return redirect('/')
+    return redirect(url_for('auth.sign_in'))
 
-@app.route('/register', methods=['GET', 'POST'])
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -52,7 +41,8 @@ def register():
             user.hash_password(form.password.data)
             user.commit()
             flash(f'{user.first_name if user.first_name else user.username} registered', category='success')
-            return redirect('/')
+            login_user(user)
+            return redirect(url_for('main.home'))
         except:
             flash(f'Username or Email already taken, Try Again', category='warning')
     return render_template('register.jinja', form=form)
