@@ -1,6 +1,5 @@
-from flask import render_template
+from flask import render_template, g
 from . import bp as main
-
 
 @main.route('/')
 def home():

@@ -1,9 +1,6 @@
-{% extends "base.jinja" %}
 
-{% block content %}
-  <form action="" method="POST">
-    {{ form.hidden_tag() }}
-    <span>{{ form.body() }}</span>
-    <p>{{ form.submit() }}</p>
+  <form action="{{ url_for('social.post') }}" method="POST">
+    {{ g.post_form.hidden_tag() }}
+    <span>{{ g.post_form.body() }}</span>
+    <p>{{ g.post_form.submit() }}</p>
   </form>
-{% endblock content %}
