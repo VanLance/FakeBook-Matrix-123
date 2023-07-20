@@ -4,12 +4,17 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_cors import CORS
 from Config import Config
+from flask_jwt_extended import JWTManager
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+jwt = JWTManager(app)
 CORS(app)
+
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.sign_in'

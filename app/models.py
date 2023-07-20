@@ -17,6 +17,18 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref = 'author', lazy=True)
 
 
+    def to_dict(self):
+        return {
+            'first_name': self.first_name,     
+            'last_name': self.last_name,
+            'email': self.email,
+            'username': self.username,
+            'posts': [{
+                'body':post.body, 
+                'timestamp':post.timestamp
+            } for post in self.posts ]
+        }
+
     def __repr__(self):
         return f'<USER: {self.username}>'
     
@@ -48,4 +60,8 @@ class Post(db.Model):
     
     def commit(self):
         db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
