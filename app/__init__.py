@@ -14,8 +14,6 @@ migrate = Migrate(app, db)
 jwt = JWTManager(app)
 CORS(app)
 
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.sign_in'
 login_manager.login_message = 'Log in you filthy animal'
