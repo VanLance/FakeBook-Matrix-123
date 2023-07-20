@@ -1,5 +1,5 @@
 from flask import flash, redirect, render_template, url_for
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 
 from . import bp as auth
 from app.forms import LoginForm, RegisterForm
@@ -7,6 +7,8 @@ from app.models import User
 
 @auth.route('/signin', methods=['GET', 'POST'])
 def sign_in():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
     login_form = LoginForm()
     if login_form.validate_on_submit():
         email = login_form.email.data
@@ -21,12 +23,15 @@ def sign_in():
     return render_template('signin.jinja', form=login_form)
 
 @auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.sign_in'))
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
     form = RegisterForm()
     if form.validate_on_submit():
         user_info = {
