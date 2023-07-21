@@ -20,7 +20,7 @@ def sign_in():
             return redirect('/')
         else:
             flash(f'Invaled User Data, Try Again!', category='warning')
-    return render_template('signin.jinja', form=login_form)
+    return render_template('auth_templates/signin.jinja', form=login_form)
 
 @auth.route('/logout')
 @login_required
@@ -50,4 +50,4 @@ def register():
             return redirect(url_for('main.home'))
         except:
             flash(f'Username or Email already taken, Try Again', category='warning')
-    return render_template('register.jinja', form=form)
+    return render_template('auth_templates/register.jinja', form=form)

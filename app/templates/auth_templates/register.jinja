@@ -16,28 +16,28 @@
       {{ form.username.label }}<br>
       {{ form.username(size=32) }}
       {% for error in form.username.errors %}
-        <span>{{ error }}</span>
+        <span class="err-msg">{{ error }}</span>
       {% endfor %}
     </p>
     <p>
       {{ form.email.label }}<br>
       {{ form.email(size=32) }}
       {% for error in form.email.errors %}
-        <span>{{ error }}</span>
+        <span class="err-msg">{{ error }}</span>
       {% endfor %}
     </p>
     <p>
       {{ form.password.label }}<br>
       {{ form.password(size=32) }}
       {% for error in form.password.errors %}
-        <span>{{ error }}</span>
+        <span class="err-msg">{{ error }}</span>
       {% endfor %}
     </p>
     <p>
       {{ form.verify_password.label }}<br>
       {{ form.verify_password(size=32) }}
       {% for error in form.verify_password.errors %}
-        <span>{{ error }}</span>
+        <span class="err-msg">{{ error }}</span>
       {% endfor %}
     </p>
     <p>{{ form.submit() }}</p>
