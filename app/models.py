@@ -16,7 +16,9 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(), nullable = False)    
     posts = db.relationship('Post', backref = 'author', lazy=True)
 
-
+    def __repr__(self):
+        return f'<USER: {self.username}>'
+    
     def to_dict(self):
         return {
             'first_name': self.first_name,     
@@ -28,12 +30,13 @@ class User(UserMixin, db.Model):
                 'timestamp':post.timestamp
             } for post in self.posts ]
         }
-
-    def __repr__(self):
-        return f'<USER: {self.username}>'
     
     def commit(self):
         db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
     def from_dict(self, user_obj):
